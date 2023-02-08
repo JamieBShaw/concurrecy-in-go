@@ -12,7 +12,7 @@ func unBuggeredChanExample() {
 	ch <- 1
 
 	fmt.Println("Wait for worker to be done")
-	<- ch
+	<-ch
 	fmt.Println("Worker done")
 }
 

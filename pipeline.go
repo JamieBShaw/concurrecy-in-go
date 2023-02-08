@@ -3,7 +3,6 @@ package main
 import "fmt"
 
 func pipeline() {
-
 	done := make(chan interface{})
 	defer close(done)
 
@@ -13,7 +12,6 @@ func pipeline() {
 	for v := range pipepline {
 		fmt.Println(v)
 	}
-
 }
 
 func generator(done <-chan interface{}, numbers ...int) <-chan int {

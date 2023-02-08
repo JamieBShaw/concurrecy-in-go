@@ -15,9 +15,9 @@ func tee(done, in <-chan interface{}) (<-chan interface{}, <-chan interface{}) {
 			for i := 0; i < 2; i++ {
 				select {
 				case <-done:
-				case out1<-val:
+				case out1 <- val:
 					out1 = nil
-				case out2<-val:
+				case out2 <- val:
 					out2 = nil
 				}
 			}
@@ -25,7 +25,6 @@ func tee(done, in <-chan interface{}) (<-chan interface{}, <-chan interface{}) {
 	}()
 	return out1, out2
 }
-
 
 func tee2(done, in <-chan interface{}, exitChannelLen int) []chan interface{} {
 	returnChannels := make([]chan interface{}, exitChannelLen)
@@ -67,7 +66,7 @@ func tee3(input SimpleOutChannel, outputs []SimpleInChannel, closeWhenDone bool)
 			cases[i].Chan = reflect.ValueOf(outputs[i].In())
 			cases[i].Send = reflect.ValueOf(elem)
 		}
-		for _ = range cases {
+		for range cases {
 			chosen, _, _ := reflect.Select(cases)
 			cases[chosen].Chan = reflect.ValueOf(nil)
 		}
